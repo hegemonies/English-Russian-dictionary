@@ -14,9 +14,9 @@ protected:
 		btree *right;
 		btree *parent;
 	};
-	btree *root;
 	btree EmptyNode = {"0", "0", NULL, NULL, NULL};
 	btree *NullNode = &EmptyNode;
+	btree *root = NULL;
 public:
 	btree *btreeCreate(string key, string value, btree *parent)
 	{
@@ -43,6 +43,7 @@ public:
 	btree *btreeMin();
 	btree *btreeMax();
 	btree *btreeMax(btree *);
+	void btreePrint(btree *, int);
 	void btreePrint(btree *);
 	void btreePrint();
 };
@@ -184,10 +185,26 @@ void BTree::btreePrint(btree *node)
 {
 	if (node == NULL || node == NullNode)
 		return;
-	btreePrint(node->left);
 	cout << node->value << " : " << node->key << endl;
+	btreePrint(node->left);
 	btreePrint(node->right);
 }
+void BTree::btreePrint(btree *node, int level)
+{
+	if (node != NullNode || !node) {
+		btreePrint(node->left, level + 1);
+		for (int i = 0; i < level; i++) {
+			cout << "	";
+		}
+	cout << node->value << " : " << node->key << endl;
+	btreePrint(node->right, level + 1);
+	}
+}
+/*
+void BTree::btreePrint(btree *node)
+{
+	btreePrint(node, 0);
+}*/
 
 void BTree::btreePrint()
 {
