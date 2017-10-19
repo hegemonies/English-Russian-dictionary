@@ -6,14 +6,14 @@ using namespace std;
 class BTree
 {
 protected:
-	typedef struct
+	struct btree
 	{
 		string key;
 		string value;
-		struct btree *left;
-		struct btree *right;
-		struct btree *parent;
-	} btree;
+		btree *left;
+		btree *right;
+		btree *parent;
+	};
 	btree *root;
 	btree EmptyNode = {"0", "0", NULL, NULL, NULL};
 	btree *NullNode = &EmptyNode;
@@ -39,12 +39,15 @@ public:
 	btree *btreeSearch(string);
 	void btreeDelete(string);
 	btree *btreeTransplant(btree *, btree *);
+	btree *btreeMin(btree *);
 	btree *btreeMin();
 	btree *btreeMax();
+	btree *btreeMax(btree *);
 	void btreePrint(btree *);
+	void btreePrint();
 };
-
-btree *btreeCreate(string key, string value, btree *parent)
+/*
+btree *BTree::btreeCreate(string key, string value, btree *parent)
 {
 	try {
 		btree *node = new btree;
@@ -60,7 +63,7 @@ btree *btreeCreate(string key, string value, btree *parent)
 
 	return node;
 }
-
+*/
 void BTree::btreeAdd(string key, string value)
 {
 	btree *node = root;
@@ -88,7 +91,7 @@ void BTree::btreeAdd(string key, string value)
 	}
 }
 
-btree *BTree::btreeSearch(string key)
+BTree::btree *BTree::btreeSearch(string key)
 {
 	btree *node = root;
 
@@ -107,35 +110,33 @@ btree *BTree::btreeSearch(string key)
 
 void BTree::btreeDelete(string key)
 {
-	rbtree *node = btreeSearch(key);
-	rbtree *save;
-	rbtree *new_node;
+	btree *node = btreeSearch(key);
+	btree *save;
+	btree *new_node;
 
 	if (node->left != NULL && node->right == NullNode) {
 		//new_node = node->right;
-		root = btreeTransplant(root, node, node->right);
+		root = btreeTransplant(node, node->right);
 	} else if (node->right != NULL && node->left == NullNode) {
 		//new_node = node->left;
-		root = btreeTransplant(root, node, node->left);
+		root = btreeTransplant(node, node->left);
 	} else {
-		save = rbtree_min(node->right);
-		save_color = save->color;
+		save = btreeMin(node->right);
 		new_node = save->right;
 		if (save->parent == node) {
 			new_node->parent = save;
 		} else {
-			root = rbtree_transplant(root, save, save->right);
+			root = btreeTransplant(save, save->right);
 			save->right = node->right;
 			save->right->parent = save;
 		}
-		root = btreeTransplant(root, node, save);
+		root = btreeTransplant(node, save);
 		save->left = node->left;
 		save->left->parent = save;
-		save->color = node->color;
 	}
 }
 
-btree *BTree::btreeTransplant(btree *node, btree *new_node)
+BTree::btree *BTree::btreeTransplant(btree *node, btree *new_node)
 {
 	if (node->parent == NULL) {
 		root = new_node;
@@ -147,12 +148,17 @@ btree *BTree::btreeTransplant(btree *node, btree *new_node)
 	if (new_node != NULL) {
 		new_node->parent = node->parent;
 	}
+	
+	return root;
 }
 
-btree *BTree::btreeMin()
+BTree::btree *BTree::btreeMin()
 {
-	btree *node = root;
+	return btreeMin(root);
+}
 
+BTree::btree *BTree::btreeMin(btree *node)
+{
 	while (node != NullNode) {
 		node = node->left;
 	}
@@ -160,12 +166,15 @@ btree *BTree::btreeMin()
 	return node;
 }
 
-btree *BTree::btreeMax()
+BTree::btree *BTree::btreeMax()
 {
-	btree *node = root;
+	return btreeMax(root);
+}
 
+BTree::btree *BTree::btreeMax(btree *node)
+{
 	while (node != NullNode) {
-		node = node->left;
+		node = node->right;
 	}
 
 	return node;
@@ -173,13 +182,17 @@ btree *BTree::btreeMax()
 
 void BTree::btreePrint(btree *node)
 {
-	if (node == NULL)
+	if (node == NULL || node == NullNode)
 		return;
 	btreePrint(node->left);
-	cout << node->value << " : " << node->key;
+	cout << node->value << " : " << node->key << endl;
 	btreePrint(node->right);
 }
 
+void BTree::btreePrint()
+{
+	btreePrint(root);
+}
 
 int main(void)
 {
