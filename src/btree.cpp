@@ -9,7 +9,7 @@ BTree::btree *BTree::btreeCreate(string key, string value, btree *parent)
 	try {
 		node = new btree;
 	} catch (bad_alloc xa) {
-		cout << "\n\tBad allocation\n";
+		cout << "\n\tBad allocation for btree node.\n";
 		exit(1);
 	}
 	node->key = key;
@@ -160,4 +160,14 @@ void BTree::btreePrint(btree *node)
 void BTree::btreePrint()
 {
 	btreePrint(root);
+}
+
+void BTree::btreeFree(btree *node)
+{
+	if (node == NULL || node == NullNode) {
+		return;
+	}
+	btreeFree(node->left);
+	btreeFree(node->right);
+	delete node;
 }

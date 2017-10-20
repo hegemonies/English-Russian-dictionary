@@ -1,5 +1,6 @@
 #ifndef BTREE_H
 #define BTREE_H
+
 #include <string>
 using namespace std;
 
@@ -14,21 +15,26 @@ protected:
 		btree *right;
 		btree *parent;
 	};
-	btree EmptyNode = {"0", "0", NULL, NULL, NULL};
 	btree *NullNode = &EmptyNode;
 	btree *root = NULL;
-public:
 	btree *btreeCreate(string, string, btree *);
+private:
+	void btreeTransplant(btree *, btree *);
+	void btreePrint(btree *);
+	btree EmptyNode = {"0", "0", NULL, NULL, NULL};
+public:
 	void btreeAdd(string, string);
 	btree *btreeSearch(string);
 	void btreeDelete(string);
-	void btreeTransplant(btree *, btree *);
 	btree *btreeMin(btree *);
 	btree *btreeMin();
 	btree *btreeMax(btree *);
 	btree *btreeMax();
-	void btreePrint(btree *);
 	void btreePrint();
+	void btreeFree(btree *);
+	~BTree() {
+		btreeFree(root);
+	}
 };
 
 #endif
