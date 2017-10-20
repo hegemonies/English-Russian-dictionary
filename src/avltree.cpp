@@ -1,10 +1,10 @@
 #include "avltree.h"
 #include "btree.h"
 #include <iostream>
-
+/*
 AVLTree::avltree *AVLTree::avltreeCreate(string key, string value, avltree *parent)
 {
-	btree *node_btree = btreeCreate(key, value, parent);
+	btree *node_btree = BTree<btree>::btreeCreate(key, value, parent);
 
 	avltree *node_avl;
 	try {
@@ -24,3 +24,10 @@ AVLTree::avltree *AVLTree::avltreeCreate(string key, string value, avltree *pare
 
 	return node_avl;
 }
+*/
+/*
+void AVLTree::avltreeAdd(string key, string value)
+{
+
+}
+*/

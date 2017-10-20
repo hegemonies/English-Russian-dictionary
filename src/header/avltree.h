@@ -11,6 +11,8 @@ class AVLTree : public BTree
 	};
 public:
 	avltree *avltreeCreate(string, string, avltree *);
+	void avltreeAdd(string, string);
+	void btreeDelete(string);//написать, изменив под авл
 	~AVLTree()
 	{
 		btreeFree(root);

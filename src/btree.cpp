@@ -171,3 +171,10 @@ void BTree::btreeFree(btree *node)
 	btreeFree(node->right);
 	delete node;
 }
+
+void BTree::ggg()
+{
+	btree *node = new btree;
+
+	node->key = "test";
+}
