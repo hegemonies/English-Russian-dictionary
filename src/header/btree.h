@@ -22,7 +22,7 @@ public:
 	void btreeAdd(string, string);
 	btree *btreeSearch(string);
 	void btreeDelete(string);
-	btree *btreeTransplant(btree *, btree *);
+	void btreeTransplant(btree *, btree *);
 	btree *btreeMin(btree *);
 	btree *btreeMin();
 	btree *btreeMax(btree *);

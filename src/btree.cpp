@@ -69,30 +69,28 @@ void BTree::btreeDelete(string key)
 {
 	btree *node = btreeSearch(key);
 	btree *save;
-	//btree *new_node;
 
 	if (node->left != NULL && node->right == NullNode) {
-		root = btreeTransplant(node, node->left);
+		btreeTransplant(node, node->left);
 	} else if (node->right != NULL && node->left == NullNode) {
-		root = btreeTransplant(node, node->right);
+		btreeTransplant(node, node->right);
 	} else {
 		save = node;
 		node = btreeMin(node->right);
-		//new_node = save->right;
 		if (node->parent == save) {
 			node->right->parent = node;
 		} else {
-			root = btreeTransplant(node, node->right);
+			btreeTransplant(node, node->right);
 			node->right = save->right;
 			node->right->parent = node;
 		}
-		root = btreeTransplant(save, node);
+		btreeTransplant(save, node);
 		node->left = save->left;
 		node->left->parent = node;
 	}
 }
 
-BTree::btree *BTree::btreeTransplant(btree *node, btree *new_node)
+void BTree::btreeTransplant(btree *node, btree *new_node)
 {
 	if (node->parent == NULL) {
 		root = new_node;
@@ -104,8 +102,6 @@ BTree::btree *BTree::btreeTransplant(btree *node, btree *new_node)
 	if (new_node != NULL) {
 		new_node->parent = node->parent;
 	}
-	
-	return root;
 }
 
 BTree::btree *BTree::btreeMin()
