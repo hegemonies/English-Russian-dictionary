@@ -2,11 +2,12 @@
 #include <string>
 #include <cstdlib>
 #include "btree.h"
+#include "avltree.h"
 using namespace std;
 
 int main(void)
 {
-	BTree obj;
+	AVLTree obj;
 	obj.AddNode("5", "five");
 	obj.AddNode("3", "three");
 	obj.AddNode("2", "two");

@@ -12,17 +12,23 @@ class AVLTree : public BTree
 	};
 	avltree EmptyNode;
 	avltree *NullNode = &EmptyNode;
-public:
 	avltree *root = NULL;
+public:
 	avltree *CreateNode(string, string, avltree *);
 	void AddNode(string, string);
-	/*
-	void btreeDelete(string);//написать, изменив под авл
+	avltree *SearchNode(string key);
+	void DeleteNode(string key);
+	void TransplantNods(avltree *node, avltree *new_node);
+	avltree *MinNode();
+	avltree *MinNode(avltree *node);
+	avltree *MaxNode();
+	void PrintTree(avltree *node);
+	void PrintTree();
+	void FreeTree(avltree *node);
 	~AVLTree()
 	{
-		btreeFree(root);
+		FreeTree(root);
 	}
-	*/
 };
 
 #endif

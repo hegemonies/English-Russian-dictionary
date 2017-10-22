@@ -62,7 +62,7 @@ protected:
 	virtual btree *CreateNode(string, string, btree *);
 	virtual void FreeTree(btree *);
 	virtual void PrintTree(btree *);
-public:
+//public:
 	virtual void AddNode(string, string);
 	virtual btree *SearchNode(string);
 	virtual void DeleteNode(string);
