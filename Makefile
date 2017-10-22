@@ -12,6 +12,9 @@ build/main.o: ifndir src/main.cpp
 build/avltree.o: ifndir src/avltree.cpp
 	g++ -std=c++11 -Wall -Werror -I src/header -c src/avltree.cpp -o build/avltree.o -g -O0
 
+build/tree.o: ifndir src/tree.cpp
+	g++ -std=c++11 -Wall -Werror -I src/header -c src/tree.cpp -o build/tree.o -g -O0
+
 ifndir:
 	mkdir build -p
 	mkdir bin -p
