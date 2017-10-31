@@ -21,7 +21,7 @@ protected:
 	virtual void PrintTree(btree *);
 	virtual void TransplantNods(btree *, btree *);
 public:
-	virtual void AddNode(string, string);
+	void AddNode(string, string);
 	btree *SearchNode(string);
 	virtual void DeleteNode(string);
 	btree *MinNode(btree *);

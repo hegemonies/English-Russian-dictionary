@@ -1,6 +1,6 @@
 #include "avltree.h"
-#include "avltree.h"
 #include <iostream>
+#include <string>
 
 avltree *AVLTree::CreateNode(string key, string value, avltree *parent)
 {
@@ -20,7 +20,7 @@ avltree *AVLTree::CreateNode(string key, string value, avltree *parent)
 
 	return node;
 }
-
+/*
 void AVLTree::AddNode(string key, string value)
 {
 	avltree *node = root;
@@ -46,6 +46,43 @@ void AVLTree::AddNode(string key, string value)
 	} else if (key > parent->key) {
 		parent->right = node;
 	}
+}
+*/
+
+avltree *AVLTree::AddNode(avltree *node, string key, string value)
+{
+	if (root == NULL) {
+		root = CreateNode(key, value, NULL);
+		return root;
+	}
+
+	if (key < node->key) {
+		node->left = AddNode(node->left, key, value);
+		if (getHeight(node->left) - getHeight(node->right) == 2) {
+			if (key < node->left->key) {
+				node = rotateRight(node);
+			} else {
+				node = rotateLeftRight(node);
+			}
+		}
+	} else if (key > node->key) 
+{		node->right = AddNode(node->right, key, value);
+		if (getHeight(node->left) - getHeight(node->right) == 2) {
+			if (key > node->right->key) {
+				node = rotateLeft(node);
+			} else {
+				node = rotateRightLeft(node);
+			}
+		}
+	}
+	fixHeight(node);
+
+	return node;
+}
+
+void AVLTree::AddNode(string key, string value)
+{
+	root = AddNode(root, key, value);
 }
 
 avltree *AVLTree::SearchNode(string key)
@@ -170,4 +207,55 @@ void AVLTree::FreeTree(avltree *node)
 	FreeTree(node->left);
 	FreeTree(node->right);
 	delete node;
+}
+
+int AVLTree::getHeight(avltree *node)
+{
+	return (node) ? node->height : 0;
+}
+
+int AVLTree::balance(avltree *node)
+{
+	return getHeight(node->left) - getHeight(node->right);
+}
+
+void AVLTree::fixHeight(avltree *node)
+{
+	unsigned char hl = getHeight(node->left);
+	unsigned char hr = getHeight(node->right);
+	node->height = (hl > hr ? hl : hr) + 1;
+}
+
+avltree *AVLTree::rotateLeft(avltree *node)
+{
+	avltree *right = node->right;
+	node->right = right->left;
+	right->left = node;
+	fixHeight(node);
+	fixHeight(right);
+
+	return right;
+}
+
+avltree *AVLTree::rotateRight(avltree *node)
+{
+	avltree *left = node->left;
+	node->left = left->right;
+	left->right = node;
+	fixHeight(node);
+	fixHeight(left);
+
+	return left;
+}
+
+avltree *AVLTree::rotateLeftRight(avltree *node)
+{
+	node->left = rotateLeft(node->left);
+	return rotateRight(node);
+}
+
+avltree *AVLTree::rotateRightLeft(avltree *node)
+{
+	node->right = rotateRight(node->right);
+	return rotateLeft(node);
 }

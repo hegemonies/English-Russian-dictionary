@@ -14,8 +14,18 @@ class AVLTree : public BTree
 	avltree EmptyNode;
 	avltree *NullNode = &EmptyNode;
 	avltree *root = NULL;
+
+	int getHeight(avltree *);
+	int balance(avltree *);
+	void fixHeight(avltree *);
+	avltree *rotateLeft(avltree *);
+	avltree *rotateRight(avltree *);
+	avltree *rotateLeftRight(avltree *);
+	avltree *rotateRightLeft(avltree *);
 public:
 	avltree *CreateNode(string, string, avltree *);
+	//void AddNode(string, string);
+	avltree *AddNode(avltree *, string, string);
 	void AddNode(string, string);
 	avltree *SearchNode(string);
 	void DeleteNode(string);
