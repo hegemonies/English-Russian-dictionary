@@ -1,7 +1,7 @@
 all: bin/main
 
 bin/main: ifndir build/btree.o build/main.o build/avltree.o
-	g++ -std=c++11 -Wall -Werror -I src/header build/btree.o build/avltree.o build/main.o -o bin/main -g -O0
+	g++ -std=c++11 -Wall -Werror -I src/header build/btree.o build/main.o build/avltree.o -o bin/main -g -O0
 
 build/btree.o: ifndir src/btree.cpp
 	g++ -std=c++11 -Wall -Werror -I src/header -c src/btree.cpp -o build/btree.o -g -O0

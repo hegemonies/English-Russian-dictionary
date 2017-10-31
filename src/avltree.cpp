@@ -1,32 +1,8 @@
 #include "avltree.h"
 #include "avltree.h"
 #include <iostream>
-/*
-AVLTree::avltree *AVLTree::avltreeCreate(string key, string value, avltree *parent)
-{
-	avltree *node_avltree = avltree<avltree>::avltreeCreate(key, value, parent);
 
-	avltree *node_avl;
-	try {
-		node_avl = new avltree;
-	} catch (bad_alloc xa) {
-		cout << "\n\tBad allocation for avltree node.\n";
-		exit(1);
-	}
-	node_avl->key = node_avltree->key;
-	node_avl->value = node_avltree->value;
-	node_avl->left = node_avltree->left;
-	node_avl->right = node_avltree->right;
-	node_avl->parent = node_avltree->parent;
-	node_avl->height = 0;
-
-	delete node_avltree;
-
-	return node_avl;
-}
-*/
-
-AVLTree::avltree *AVLTree::CreateNode(string key, string value, avltree *parent)
+avltree *AVLTree::CreateNode(string key, string value, avltree *parent)
 {
 	avltree *node;
 	try {
@@ -72,7 +48,7 @@ void AVLTree::AddNode(string key, string value)
 	}
 }
 
-AVLTree::avltree *AVLTree::SearchNode(string key)
+avltree *AVLTree::SearchNode(string key)
 {
 	avltree *node = root;
 
@@ -128,12 +104,12 @@ void AVLTree::TransplantNods(avltree *node, avltree *new_node)
 	}
 }
 
-AVLTree::avltree *AVLTree::MinNode()
+avltree *AVLTree::MinNode()
 {
 	return MinNode(root);
 }
 
-AVLTree::avltree *AVLTree::MinNode(avltree *node)
+avltree *AVLTree::MinNode(avltree *node)
 {
 	while (node->left != NullNode) {
 		node = node->left;
@@ -142,18 +118,18 @@ AVLTree::avltree *AVLTree::MinNode(avltree *node)
 	return node;
 }
 
-AVLTree::avltree *AVLTree::MaxNode()
-{
-	return MaxNode(root);
-}
-
-AVLTree::avltree *AVLTree::MaxNode(avltree *node)
+avltree *AVLTree::MaxNode(avltree *node)
 {
 	while (node->right != NullNode) {
 		node = node->right;
 	}
 
 	return node;
+}
+
+avltree *AVLTree::MaxNode()
+{
+	return MaxNode(root);
 }
 
 void AVLTree::PrintTree(avltree *node)

@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-BTree::btree *BTree::CreateNode(string key, string value, btree *parent)
+btree *BTree::CreateNode(string key, string value, btree *parent)
 {
 	btree *node;
 	try {
@@ -48,7 +48,7 @@ void BTree::AddNode(string key, string value)
 	}
 }
 
-BTree::btree *BTree::SearchNode(string key)
+btree *BTree::SearchNode(string key)
 {
 	btree *node = root;
 
@@ -104,12 +104,12 @@ void BTree::TransplantNods(btree *node, btree *new_node)
 	}
 }
 
-BTree::btree *BTree::MinNode()
+btree *BTree::MinNode()
 {
 	return MinNode(root);
 }
 
-BTree::btree *BTree::MinNode(btree *node)
+btree *BTree::MinNode(btree *node)
 {
 	while (node->left != NullNode) {
 		node = node->left;
@@ -118,12 +118,12 @@ BTree::btree *BTree::MinNode(btree *node)
 	return node;
 }
 
-BTree::btree *BTree::MaxNode()
+btree *BTree::MaxNode()
 {
 	return MaxNode(root);
 }
 
-BTree::btree *BTree::MaxNode(btree *node)
+btree *BTree::MaxNode(btree *node)
 {
 	while (node->right != NullNode) {
 		node = node->right;
