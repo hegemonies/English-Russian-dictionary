@@ -51,13 +51,13 @@ void AVLTree::AddNode(string key, string value)
 
 avltree *AVLTree::AddNode(avltree *node, string key, string value)
 {
-	if (root == NULL) {
-		root = CreateNode(key, value, NULL);
-		return root;
+	if (node == NULL || node == NullNode) {
+		return CreateNode(key, value, NULL);
 	}
 
 	if (key < node->key) {
 		node->left = AddNode(node->left, key, value);
+		node->left->parent = node;
 		if (getHeight(node->left) - getHeight(node->right) == 2) {
 			if (key < node->left->key) {
 				node = rotateRight(node);
@@ -65,9 +65,10 @@ avltree *AVLTree::AddNode(avltree *node, string key, string value)
 				node = rotateLeftRight(node);
 			}
 		}
-	} else if (key > node->key) 
-{		node->right = AddNode(node->right, key, value);
-		if (getHeight(node->left) - getHeight(node->right) == 2) {
+	} else if (key > node->key) {
+		node->right = AddNode(node->right, key, value);
+		node->right->parent = node;
+		if (getHeight(node->right) - getHeight(node->left) == 2) {
 			if (key > node->right->key) {
 				node = rotateLeft(node);
 			} else {
@@ -214,7 +215,7 @@ int AVLTree::getHeight(avltree *node)
 	return (node) ? node->height : 0;
 }
 
-int AVLTree::balance(avltree *node)
+int AVLTree::hBalance(avltree *node)
 {
 	return getHeight(node->left) - getHeight(node->right);
 }

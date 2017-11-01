@@ -16,7 +16,7 @@ class AVLTree : public BTree
 	avltree *root = NULL;
 
 	int getHeight(avltree *);
-	int balance(avltree *);
+	int hBalance(avltree *);
 	void fixHeight(avltree *);
 	avltree *rotateLeft(avltree *);
 	avltree *rotateRight(avltree *);
