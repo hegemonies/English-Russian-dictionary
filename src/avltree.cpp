@@ -53,26 +53,77 @@ avltree *AVLTree::AddNode(avltree *node, string key, string value)
 	return node;
 }
 
-avltree *AVLTree::Delete(avltree *node, string key)
+int AVLTree::diffHeight(avltree *node)
 {
-	if (key < node->key) {
-		Delete(node->left, key);
-	} else if (key > node->key) {
-		Delete(node->right, key);
-	} else {
-		//avltree *save = node->parent;
-		DeleteNode(key);
-	}
-
-	//balance(root);
-
-	return node;
+	return getHeight(node->left) - getHeight(node->right);
 }
 
-// void AVLTtree::balance(avltree *node)
-// {
 
+// avltree *AVLTree::Delete(avltree *node, string key)
+// {
+// 	if (key < node->key) {
+// 		Delete(node->left, key);
+// 	} else if (key > node->key) {
+// 		Delete(node->right, key);
+// 	} else {
+// 		//avltree *save = node->parent;
+// 		DeleteNode(key);
+// 	}
+
+// 	//balance(root);
+
+// 	return node;
 // }
+
+avltree *AVLTree::Delete(avltree *node, string key)
+{
+	if (!node || node == NullNode) {
+		return node;
+	}
+	if (key < node->key) {
+		node->left = Delete(node->left, key);
+	} else if (key > node->key) {
+		node->right = Delete(node->right, key);
+	} else {
+		avltree *save_left = node->left;
+		avltree *save_right = node->right;
+		DeleteNode(node->key);
+		if (!save_right) {
+			return save_left;
+		}
+		avltree *min = SearchNode(save_right->key);
+		min->right = DeleteMin(save_right);
+		min->left = save_left;
+		return balance(min);
+	}
+	return balance(node);
+}
+
+avltree *AVLTree::DeleteMin(avltree *node)
+{
+	avltree *tmp = SearchNode(node->key);
+	delete tmp;
+	return NULL;
+}
+
+avltree *AVLTree::balance(avltree *node)
+{
+	fixHeight(node);
+
+	if (diffHeight(node) == -2) {
+		if (diffHeight(node->right) < 0) {
+			node->right = rotateRight(node->right);
+		}
+		return rotateLeft(node);
+	}
+	if (diffHeight(node) == 2) {
+		if (diffHeight(node->left) > 0) {
+			node->left = rotateLeft(node->left);
+		}
+		return rotateRight(node);
+	}
+	return node;
+}
 
 void AVLTree::Delete(string key)
 {
@@ -221,18 +272,6 @@ int AVLTree::getHeight(avltree *node)
     return height;
 }
 
-int AVLTree::diffHeight(avltree *node)
-{
-	return getHeight(node->left) - getHeight(node->right);
-}
-
-// void AVLTree::fixHeight(avltree *node)
-// {
-// 	unsigned char hl = getHeight(node->left);
-// 	unsigned char hr = getHeight(node->right);
-// 	node->height = (hl > hr ? hl : hr);
-// }
-
 void AVLTree::fixHeight()
 {
 	fixHeight(root);
@@ -248,7 +287,7 @@ void AVLTree::fixHeight(avltree *node)
 	fixHeight(node->right);
 	unsigned char hl = getHeight(node->left);
 	unsigned char hr = getHeight(node->right);
-	node->height = (hl > hr ? hl : hr);
+	node->height = (hl > hr ? hl : hr) - 1;
 }
 ///
 

@@ -25,9 +25,9 @@ int main(void)
 	cout << endl;
 	obj.Display();
 
-	// obj.Delete("1");
-	// cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
-	// obj.PrintTree();
+	obj.Delete("1");
+	cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
+	obj.PrintTree();
 
 	// cout << "\nBTREE";
 	// BTree obj1;

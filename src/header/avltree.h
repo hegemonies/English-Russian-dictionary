@@ -19,6 +19,7 @@ class AVLTree : public BTree
 	int diffHeight(avltree *);
 	void fixHeight(avltree *);
 	void fixHeight();
+	avltree *balance(avltree *);
 
 	avltree *rotateLeft(avltree *);
 	avltree *rotateRight(avltree *);
@@ -47,8 +48,10 @@ public:
 	avltree *MaxNode();
 	void PrintTree();
 	void Display();
+
 	avltree *Delete(avltree *, string);
 	void Delete(string);
+	avltree *DeleteMin(avltree *);
 	~AVLTree()
 	{
 		FreeTree(root);
