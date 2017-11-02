@@ -23,8 +23,12 @@ class AVLTree : public BTree
 	avltree *rotateLeftRight(avltree *);
 	avltree *rotateRightLeft(avltree *);
 public:
+	AVLTree() {
+		NullNode->parent = NULL;
+		NullNode->left = NULL;
+		NullNode->right = NULL;
+	}
 	avltree *CreateNode(string, string, avltree *);
-	//void AddNode(string, string);
 	avltree *AddNode(avltree *, string, string);
 	void AddNode(string, string);
 	avltree *SearchNode(string);

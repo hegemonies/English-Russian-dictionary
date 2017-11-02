@@ -229,24 +229,55 @@ void AVLTree::fixHeight(avltree *node)
 
 avltree *AVLTree::rotateLeft(avltree *node)
 {
-	avltree *right = node->right;
-	node->right = right->left;
-	right->left = node;
-	fixHeight(node);
-	fixHeight(right);
+	avltree *des = node->right;
+	node->right = des->left;
+	if (des->left != NULL) {
+		des->left->parent = node;
+	}
+	des->parent = node->parent;
+	if (node->parent != NULL) {
+		if (node->parent->left == node) {
+			node->parent->left = des;
+		} else {
+			node->parent->right = des;
+		}
+	} else {
+		des->parent = node->parent;
+	}
 
-	return right;
+	des->left = node;
+	node->parent = des;
+
+	fixHeight(node);
+	fixHeight(des);
+
+	return des;
 }
 
 avltree *AVLTree::rotateRight(avltree *node)
 {
-	avltree *left = node->left;
-	node->left = left->right;
-	left->right = node;
-	fixHeight(node);
-	fixHeight(left);
+	avltree *des = node->left;
+	node->left = des->right;
+	if (des->right != NULL) {
+		des->right->parent = node;
+	}
+	des->parent = node->parent;
+	if (node->parent != NULL) {
+		if (node->parent->right == node) {
+			node->parent->right = des;
+		} else {
+			node->parent->left = des;
+		}
+	} else {
+		des->parent = node->parent;
+	}
+	des->right = node;
+	node->parent = des;
 
-	return left;
+	fixHeight(node);
+	fixHeight(des);
+
+	return des;
 }
 
 avltree *AVLTree::rotateLeftRight(avltree *node)

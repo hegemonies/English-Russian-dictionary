@@ -21,6 +21,11 @@ protected:
 	virtual void PrintTree(btree *);
 	virtual void TransplantNods(btree *, btree *);
 public:
+	BTree() {
+		NullNode->parent = NULL;
+		NullNode->left = NULL;
+		NullNode->right = NULL;
+	}
 	void AddNode(string, string);
 	btree *SearchNode(string);
 	virtual void DeleteNode(string);
