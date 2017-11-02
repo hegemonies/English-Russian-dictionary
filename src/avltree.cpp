@@ -20,34 +20,6 @@ avltree *AVLTree::CreateNode(string key, string value, avltree *parent)
 
 	return node;
 }
-/*
-void AVLTree::AddNode(string key, string value)
-{
-	avltree *node = root;
-	avltree *parent = NULL;
-		
-	while (node != NullNode && node != NULL) {
-		parent = node;
-		if (key < node->key) {
-			node = node->left;
-		} else if (key > node->key) {
-			node = node->right;
-		} else {
-			return;
-		}
-	}
-
-	node = CreateNode(key, value, parent);
-
-	if (root == NULL) {
-		root = node;
-	} else if (key < parent->key) {
-		parent->left = node;
-	} else if (key > parent->key) {
-		parent->right = node;
-	}
-}
-*/
 
 avltree *AVLTree::AddNode(avltree *node, string key, string value)
 {
@@ -58,7 +30,7 @@ avltree *AVLTree::AddNode(avltree *node, string key, string value)
 	if (key < node->key) {
 		node->left = AddNode(node->left, key, value);
 		node->left->parent = node;
-		if (getHeight(node->left) - getHeight(node->right) == 2) {
+		if (diffHeight(node) == 2) {
 			if (key < node->left->key) {
 				node = rotateRight(node);
 			} else {
@@ -68,7 +40,7 @@ avltree *AVLTree::AddNode(avltree *node, string key, string value)
 	} else if (key > node->key) {
 		node->right = AddNode(node->right, key, value);
 		node->right->parent = node;
-		if (getHeight(node->left) - getHeight(node->right) == -2) {
+		if (diffHeight(node) == -2) {
 			if (key > node->right->key) {
 				node = rotateLeft(node);
 			} else {
@@ -76,9 +48,35 @@ avltree *AVLTree::AddNode(avltree *node, string key, string value)
 			}
 		}
 	}
-	fixHeight(node);
+	fixHeight();
 
 	return node;
+}
+
+avltree *AVLTree::Delete(avltree *node, string key)
+{
+	if (key < node->key) {
+		Delete(node->left, key);
+	} else if (key > node->key) {
+		Delete(node->right, key);
+	} else {
+		//avltree *save = node->parent;
+		DeleteNode(key);
+	}
+
+	//balance(root);
+
+	return node;
+}
+
+// void AVLTtree::balance(avltree *node)
+// {
+
+// }
+
+void AVLTree::Delete(string key)
+{
+	Delete(root, key);
 }
 
 void AVLTree::AddNode(string key, string value)
@@ -190,8 +188,9 @@ void AVLTree::PrintTree(avltree *node)
     if (!node->right) {
     	cout << "\t\t" << node->right;
     } else {
-    	cout << "\t" << node->right << endl;
+    	cout << "\t" << node->right << "\t";
     }
+    cout << node->height << endl;
     PrintTree(node->right);
 }
 
@@ -209,17 +208,11 @@ void AVLTree::FreeTree(avltree *node)
 	FreeTree(node->right);
 	delete node;
 }
-/*
-int AVLTree::getHeight(avltree *node)
-{
-	return (node != NULL) ? node->height : 0;
-}
-*/
+
 int AVLTree::getHeight(avltree *node)
 {
     int height = 0;
-    if(node != NULL)
-    {
+    if (node) {
         int leftHeight = getHeight(node->left);
         int rightHeight = getHeight(node->right);
         int maxHeight = (leftHeight > rightHeight) ? leftHeight : rightHeight;
@@ -228,17 +221,36 @@ int AVLTree::getHeight(avltree *node)
     return height;
 }
 
-int AVLTree::hBalance(avltree *node)
+int AVLTree::diffHeight(avltree *node)
 {
 	return getHeight(node->left) - getHeight(node->right);
 }
 
+// void AVLTree::fixHeight(avltree *node)
+// {
+// 	unsigned char hl = getHeight(node->left);
+// 	unsigned char hr = getHeight(node->right);
+// 	node->height = (hl > hr ? hl : hr);
+// }
+
+void AVLTree::fixHeight()
+{
+	fixHeight(root);
+}
+
+
 void AVLTree::fixHeight(avltree *node)
 {
+	if (node == NullNode || node == NULL) {
+		return;
+	}
+	fixHeight(node->left);
+	fixHeight(node->right);
 	unsigned char hl = getHeight(node->left);
 	unsigned char hr = getHeight(node->right);
-	node->height = (hl > hr ? hl : hr) + 1;
+	node->height = (hl > hr ? hl : hr);
 }
+///
 
 avltree *AVLTree::rotateLeft(avltree *node)
 {
@@ -303,4 +315,24 @@ avltree *AVLTree::rotateRightLeft(avltree *node)
 {
 	node->right = rotateRight(node->right);
 	return rotateLeft(node);
+}
+
+void AVLTree::Display()
+{
+    Display(root, 0);
+    cout << endl;
+}
+
+void AVLTree::Display(avltree *node, int level)
+{
+    if (node) {
+        Display(node->right, level + 1);
+        cout << endl;
+        if (node == root)
+        cout << "ROOT->";
+        for (int i = 0; i < level && node != root; i++)
+            cout << "        ";
+        cout << node->key;
+        Display(node->left, level + 1);
+    }
 }

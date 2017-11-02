@@ -16,31 +16,39 @@ class AVLTree : public BTree
 	avltree *root = NULL;
 
 	int getHeight(avltree *);
-	int hBalance(avltree *);
+	int diffHeight(avltree *);
 	void fixHeight(avltree *);
+	void fixHeight();
+
 	avltree *rotateLeft(avltree *);
 	avltree *rotateRight(avltree *);
 	avltree *rotateLeftRight(avltree *);
 	avltree *rotateRightLeft(avltree *);
+	void Display(avltree *, int);
+	void FreeTree(avltree *);
+	void PrintTree(avltree *);
+	avltree *MinNode(avltree *);
+	avltree *MaxNode(avltree *);
+	void TransplantNods(avltree *, avltree *);
+	avltree *AddNode(avltree *, string, string);
+
 public:
 	AVLTree() {
 		NullNode->parent = NULL;
 		NullNode->left = NULL;
 		NullNode->right = NULL;
+		NullNode->height = 0;
 	}
 	avltree *CreateNode(string, string, avltree *);
-	avltree *AddNode(avltree *, string, string);
 	void AddNode(string, string);
 	avltree *SearchNode(string);
 	void DeleteNode(string);
-	void TransplantNods(avltree *, avltree *);
 	avltree *MinNode();
-	avltree *MinNode(avltree *);
 	avltree *MaxNode();
-	avltree *MaxNode(avltree *);
-	void PrintTree(avltree *);
 	void PrintTree();
-	void FreeTree(avltree *);
+	void Display();
+	avltree *Delete(avltree *, string);
+	void Delete(string);
 	~AVLTree()
 	{
 		FreeTree(root);

@@ -9,32 +9,25 @@ int main(void)
 	cout << "AVLTREE\n";
 	AVLTree obj;
 	obj.AddNode("5", "five");
-	cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
-	obj.PrintTree();
 	obj.AddNode("4", "four");
-	cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
-	obj.PrintTree();
 	obj.AddNode("2", "two");
-	cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
-	obj.PrintTree();
 	obj.AddNode("3", "three");
-	cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
-	obj.PrintTree();
 	obj.AddNode("1", "one");
-	cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
-	obj.PrintTree();
 	obj.AddNode("7", "seven");
-	cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
-	obj.PrintTree();
 	obj.AddNode("8", "eight");
-	cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
-	obj.PrintTree();
 	obj.AddNode("9", "nine");
-	cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
-	obj.PrintTree();
 	obj.AddNode("6", "six");
 	cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
 	obj.PrintTree();
+
+	cout << "\nПоиск узла 5: " << obj.SearchNode("5")->value << endl;
+
+	cout << endl;
+	obj.Display();
+
+	// obj.Delete("1");
+	// cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
+	// obj.PrintTree();
 
 	// cout << "\nBTREE";
 	// BTree obj1;
