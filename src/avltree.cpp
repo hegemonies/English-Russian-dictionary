@@ -68,7 +68,7 @@ avltree *AVLTree::AddNode(avltree *node, string key, string value)
 	} else if (key > node->key) {
 		node->right = AddNode(node->right, key, value);
 		node->right->parent = node;
-		if (getHeight(node->right) - getHeight(node->left) == 2) {
+		if (getHeight(node->left) - getHeight(node->right) == -2) {
 			if (key > node->right->key) {
 				node = rotateLeft(node);
 			} else {
@@ -209,10 +209,23 @@ void AVLTree::FreeTree(avltree *node)
 	FreeTree(node->right);
 	delete node;
 }
-
+/*
 int AVLTree::getHeight(avltree *node)
 {
-	return (node) ? node->height : 0;
+	return (node != NULL) ? node->height : 0;
+}
+*/
+int AVLTree::getHeight(avltree *node)
+{
+    int height = 0;
+    if(node != NULL)
+    {
+        int leftHeight = getHeight(node->left);
+        int rightHeight = getHeight(node->right);
+        int maxHeight = (leftHeight > rightHeight) ? leftHeight : rightHeight;
+        height = maxHeight + 1;
+    }
+    return height;
 }
 
 int AVLTree::hBalance(avltree *node)
