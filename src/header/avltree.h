@@ -19,7 +19,12 @@ class AVLTree : public BTree
 	int diffHeight(avltree *);
 	void fixHeight(avltree *);
 	void fixHeight();
-	avltree *balance(avltree *);
+	void balance(avltree *);
+
+	// avltree *removemin(avltree*);
+
+	void fixBalance(avltree *);
+	void fixBalance();
 
 	avltree *rotateLeft(avltree *);
 	avltree *rotateRight(avltree *);
@@ -38,10 +43,12 @@ public:
 		NullNode->parent = NULL;
 		NullNode->left = NULL;
 		NullNode->right = NULL;
-		NullNode->height = 0;
+		NullNode->height = -1;
+		NullNode->key = "-1";
 	}
 	avltree *CreateNode(string, string, avltree *);
 	void AddNode(string, string);
+
 	avltree *SearchNode(string);
 	void DeleteNode(string);
 	avltree *MinNode();
