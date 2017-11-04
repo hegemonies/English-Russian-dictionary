@@ -12,15 +12,16 @@ struct btree : public node<string, string, btree>
 
 class BTree : public Tree<string, string, btree>
 {
+public:
 	btree EmptyNode;
 	btree *NullNode = &EmptyNode;
 	btree *root = NULL;
-protected:
+//protected:
 	btree *CreateNode(string, string, btree *);
 	virtual void FreeTree(btree *);
 	virtual void PrintTree(btree *);
-	virtual void TransplantNods(btree *, btree *);
-public:
+	void TransplantNods(btree *, btree *);
+// public:
 	BTree() {
 		NullNode->parent = NULL;
 		NullNode->left = NULL;
@@ -34,6 +35,7 @@ public:
 	btree *MaxNode(btree *);
 	btree *MaxNode();
 	virtual void PrintTree();
+
 	~BTree() {
 		FreeTree(root);
 	}

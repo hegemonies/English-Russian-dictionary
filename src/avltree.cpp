@@ -55,111 +55,112 @@ avltree *AVLTree::AddNode(avltree *node, string key, string value)
 
 int AVLTree::diffHeight(avltree *node)
 {
-	return getHeight(node->left) - getHeight(node->right);
+	int l;
+	if (node->left == NullNode) {
+		l = 0;
+	} else {
+		l = getHeight(node->left);
+	}
+
+	int r;
+	if (node->right == NullNode) {
+		r = 0;
+	} else {
+		r = getHeight(node->right);
+	}
+	// cout << "node->left->key =  " << node->left->key << endl;
+	// cout << "node->left->height =  " << node->left->height << endl;
+	// cout << "node->right->key =  " << node->right->key << endl;
+	// cout << "node->right->height =  " << node->right->height << endl;
+	// cout << "l - r = " <<  l - r << endl;
+	return l - r;
 }
-
-// void AVLTree::Delete(string key)
-// {
-// 	if (key.empty()) {
-// 		cout << "\n\t\tKEY is empty\n";
-// 		return;
-// 	}
-// 	avltree *node = SearchNode(key);
-// 	if (!node || node == NullNode) {
-// 		cout << "\n\t\tDont find a node\n";
-// 		return;
-// 	}
-
-// 	DeleteNode(node->key);
-// 	fixHeight();
-// 	fixBalance();
-// 	delete node;
-// }
-
-// void AVLTree::Delete(string key)
-// {
-// 	Delete(root, key);
-// }
 
 void AVLTree::Delete(string key)
 {
-	if (key.empty()) {
-		cout << "\n\t\tKEY is empty\n";
-		return;
-	}
-	avltree *node = SearchNode(key);
-	if (!node || node == NullNode) {
-		cout << "\n\t\tDont find a node\n";
-		return;
-	}
-
-	DeleteNode(node->key);
-	delete node;
-	fixHeight();
-	fixBalance();
-}
-
-
-void AVLTree::balance(avltree *node)
-{
-	//fixHeight(node);
-
-	if (diffHeight(node) == -2) {
-		cout << "diffHeight(node) = " << diffHeight(node) << endl;
-		if (node->right->left != NullNode || node->right->left != NULL) {
-			rotateRight(node->right->left);
-			cout << "Поворот на право и лево\n";
-			PrintTree();
-		}
-		cout << "Поворот на лево\n";
-		rotateLeft(node->right);
-		PrintTree();
-	}
-	if (diffHeight(node) == 2) {
-		if (node->left->right != NullNode || node->left->right != NULL) {
-			cout << "Поворот на лево и право\n";
-			rotateLeft(node->left->right);
-			PrintTree();
-		}
-		cout << "Поворот на право\n";
-		rotateRight(node->left);
-		PrintTree();
-	}
+	root = Delete(root, key);
 	fixHeight();
 }
 
-// avltree* AVLTree::removemin(avltree* p) // удаление узла с минимальным ключом из дерева p
-// {
-// 	if( p->left == NULL )
-// 		return p->right;
-// 	p->left = removemin(p->left);
-// 	return balance(p);
-// }
-
-void AVLTree::fixBalance(avltree *node)
+avltree *AVLTree::Delete(avltree *node, string key)
 {
-	if (node == NullNode || node == NULL) {
-		return;
+	// cout << "root is " << root->key << endl;
+	if (node == NULL || node == NullNode) {
+		return NullNode;
 	}
-	fixBalance(node->left);
-	fixBalance(node->right);
-	cout << "\t" << node->key << endl;
-	balance(node);
-}
 
-void AVLTree::fixBalance()
-{
-	fixBalance(root);
-}
+	if (key == root->key) {
+		node = root;
+		DeleteNode(node->key);
+		// cout << "MMMMMMMMMMMMMMM\n";
+		// cout << "\troot is " << root->key << endl;
+		// PrintTree();
+		fixHeight();
+		if (diffHeight(node) == -2) {
+			// cout << "\ndiffHeight(node) == -2\n";
+			if (node->right->left == NullNode || node->right->left == NULL) {
+				// cout << "rotate left\n";
+				node = rotateLeft(node);
+			} else {
+				// cout << "rotate right + left\n";
+				node = rotateRightLeft(node);
+			}
+		}
+		fixHeight();
+		return root;
+	}
 
-// void AVLTree::Delete(string key)
-// {
-// 	Delete(root, key);
-// }
+	if (key < node->key) {
+		node->left = Delete(node->left, key);
+		if (key == node->left->key) {
+			DeleteNode(node->left->key);
+			// cout << "MMMMMMMMMMMMMMM\n";
+			// PrintTree();
+		}
+		fixHeight();
+		if (diffHeight(node) == -2) {
+			// cout << "\ndiffHeight(node) == -2\n";
+			if (node->right->left == NullNode || node->right->left == NULL) {
+				// cout << "rotate left\n";
+				node = rotateLeft(node);
+			} else {
+				// cout << "rotate right + left\n";
+				node = rotateRightLeft(node);
+			}
+		}
+		fixHeight();
+		return node;
+	} else if (key > node->key) {
+		node->right = Delete(node->right, key);
+		if (key == node->right->key) {
+			DeleteNode(node->right->key);
+			// cout << "MMMMMMMMMMMMMMM\n";
+			// PrintTree();
+		}
+		fixHeight();
+		if (diffHeight(node) == 2) {
+			// cout << "\ndiffHeight(node) == -2\n";
+			if (node->left->right == NullNode || node->left->right == NULL) {
+				// cout << "rotate right\n";
+				node = rotateRight(node);
+			} else {
+				// cout << "rotate left + right\n";
+				node = rotateLeftRight(node);
+			}
+		}
+		fixHeight();
+		return node;
+	}
+	
+	fixHeight();
+
+	return node;
+}
 
 void AVLTree::AddNode(string key, string value)
 {
 	root = AddNode(root, key, value);
+	fixHeight();
 }
 
 avltree *AVLTree::SearchNode(string key)
@@ -191,26 +192,32 @@ void AVLTree::DeleteNode(string key)
 	avltree *save;
 
 	if (node->left != NULL && node->right == NullNode) {
-		TransplantNods(node, node->left);
+		root = TransplantNods(node, node->left);
 	} else if (node->right != NULL && node->left == NullNode) {
-		TransplantNods(node, node->right);
+		root = TransplantNods(node, node->right);
 	} else {
 		save = node;
 		node = MinNode(node->right);
 		if (node->parent == save) {
 			node->right->parent = node;
 		} else {
-			TransplantNods(node, node->right);
+			root = TransplantNods(node, node->right);
 			node->right = save->right;
 			node->right->parent = node;
 		}
-		TransplantNods(save, node);
+		root = TransplantNods(save, node);
 		node->left = save->left;
 		node->left->parent = node;
 	}
+	// delete node;
 }
 
-void AVLTree::TransplantNods(avltree *node, avltree *new_node)
+// void AVLTree::DeleteNode(string key)
+// {
+
+// }
+
+avltree *AVLTree::TransplantNods(avltree *node, avltree *new_node)
 {
 	if (node->parent == NULL) {
 		root = new_node;
@@ -222,11 +229,8 @@ void AVLTree::TransplantNods(avltree *node, avltree *new_node)
 	if (new_node != NULL) {
 		new_node->parent = node->parent;
 	}
-}
 
-avltree *AVLTree::MinNode()
-{
-	return MinNode(root);
+	return root;
 }
 
 avltree *AVLTree::MinNode(avltree *node)
@@ -236,6 +240,11 @@ avltree *AVLTree::MinNode(avltree *node)
 	}
 
 	return node;
+}
+
+avltree *AVLTree::MinNode()
+{
+	return MinNode(root);
 }
 
 avltree *AVLTree::MaxNode(avltree *node)
@@ -280,6 +289,7 @@ void AVLTree::PrintTree(avltree *node)
 
 void AVLTree::PrintTree()
 {
+	cout << "\t\troot is " << root->key << endl;
 	PrintTree(root);
 }
 
@@ -292,18 +302,6 @@ void AVLTree::FreeTree(avltree *node)
 	FreeTree(node->right);
 	delete node;
 }
-
-// int AVLTree::getHeight(avltree *node)
-// {
-//     int height = 0;
-//     if (node) {
-//         int leftHeight = getHeight(node->left);
-//         int rightHeight = getHeight(node->right);
-//         int maxHeight = (leftHeight > rightHeight) ? leftHeight : rightHeight;
-//         height = maxHeight + 1;
-//     }
-//     return height;
-// }
 
 int AVLTree::getHeight(avltree *node)
 {
@@ -327,7 +325,6 @@ void AVLTree::fixHeight(avltree *node)
 	int hr = getHeight(node->right);
 	node->height = (hl > hr ? hl : hr);
 }
-///
 
 avltree *AVLTree::rotateLeft(avltree *node)
 {
@@ -353,41 +350,8 @@ avltree *AVLTree::rotateLeft(avltree *node)
 	des->left = node;
 	node->parent = des;
 
-	// fixHeight(node);
-	// fixHeight(des);
-
 	return des;
 }
-
-// avltree *AVLTree::rotateLeft(avltree *tree)
-// {
-// 	avltree *right1;
-// 	right1 = tree->right;
-// 	tree->right = right1->left;
-// 	right1->left = tree;
-// 	// tree->height = imax2(avltree_height(tree->left),avltree_height(tree->right)) + 1;
-// 	tree->height = (getHeight(tree->left) > getHeight(tree->right)
-// 		? getHeight(tree->left) : getHeight(tree->right)) + 1;
-// 	// right->height = imax2(avltree_height(right->right), tree->height) + 1;
-// 	right1->height = (getHeight(right1->right) > tree->height
-// 		? getHeight(right1->right) : tree->height) + 1;
-// 	return right1;
-// }
-
-// avltree *AVLTree::rotateRight(avltree *tree)
-// {
-// 	avltree *left;
-// 	left = tree->left;
-// 	tree->left = left->right;
-// 	left->right = tree;
-// 	// tree->height = imax2(avltree_height(tree->left),avltree_height(tree->right)) + 1;
-// 	tree->height = (getHeight(tree->left) > getHeight(tree->right)
-// 		? getHeight(tree->left) : getHeight(tree->right)) + 1;
-// 	// right->height = imax2(avltree_height(right->right), tree->height) + 1;
-// 	left->height = (getHeight(left->left) > tree->height
-// 		? getHeight(left->left) : tree->height) + 1;
-// 	return left;
-// }
 
 avltree *AVLTree::rotateRight(avltree *node)
 {
@@ -412,26 +376,17 @@ avltree *AVLTree::rotateRight(avltree *node)
 	des->right = node;
 	node->parent = des;
 
-	// fixHeight(node);
-	// fixHeight(des);
-
 	return des;
 }
 
 avltree *AVLTree::rotateLeftRight(avltree *node)
 {
-	if (node == NullNode) {
-		return NullNode;
-	}
 	node->left = rotateLeft(node->left);
 	return rotateRight(node);
 }
 
 avltree *AVLTree::rotateRightLeft(avltree *node)
 {
-	if (node == NullNode) {
-		return NullNode;
-	}
 	node->right = rotateRight(node->right);
 	return rotateLeft(node);
 }
