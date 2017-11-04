@@ -1,1 +1,1 @@
-# English-Russian-dictionary
+# English-Russian-dictionary with AVLTree.

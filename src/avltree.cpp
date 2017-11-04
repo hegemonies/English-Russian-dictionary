@@ -68,11 +68,7 @@ int AVLTree::diffHeight(avltree *node)
 	} else {
 		r = getHeight(node->right);
 	}
-	// cout << "node->left->key =  " << node->left->key << endl;
-	// cout << "node->left->height =  " << node->left->height << endl;
-	// cout << "node->right->key =  " << node->right->key << endl;
-	// cout << "node->right->height =  " << node->right->height << endl;
-	// cout << "l - r = " <<  l - r << endl;
+	
 	return l - r;
 }
 
@@ -84,7 +80,6 @@ void AVLTree::Delete(string key)
 
 avltree *AVLTree::Delete(avltree *node, string key)
 {
-	// cout << "root is " << root->key << endl;
 	if (node == NULL || node == NullNode) {
 		return NullNode;
 	}
@@ -92,17 +87,11 @@ avltree *AVLTree::Delete(avltree *node, string key)
 	if (key == root->key) {
 		node = root;
 		DeleteNode(node->key);
-		// cout << "MMMMMMMMMMMMMMM\n";
-		// cout << "\troot is " << root->key << endl;
-		// PrintTree();
 		fixHeight();
 		if (diffHeight(node) == -2) {
-			// cout << "\ndiffHeight(node) == -2\n";
 			if (node->right->left == NullNode || node->right->left == NULL) {
-				// cout << "rotate left\n";
 				node = rotateLeft(node);
 			} else {
-				// cout << "rotate right + left\n";
 				node = rotateRightLeft(node);
 			}
 		}
@@ -114,17 +103,12 @@ avltree *AVLTree::Delete(avltree *node, string key)
 		node->left = Delete(node->left, key);
 		if (key == node->left->key) {
 			DeleteNode(node->left->key);
-			// cout << "MMMMMMMMMMMMMMM\n";
-			// PrintTree();
 		}
 		fixHeight();
 		if (diffHeight(node) == -2) {
-			// cout << "\ndiffHeight(node) == -2\n";
 			if (node->right->left == NullNode || node->right->left == NULL) {
-				// cout << "rotate left\n";
 				node = rotateLeft(node);
 			} else {
-				// cout << "rotate right + left\n";
 				node = rotateRightLeft(node);
 			}
 		}
@@ -134,17 +118,12 @@ avltree *AVLTree::Delete(avltree *node, string key)
 		node->right = Delete(node->right, key);
 		if (key == node->right->key) {
 			DeleteNode(node->right->key);
-			// cout << "MMMMMMMMMMMMMMM\n";
-			// PrintTree();
 		}
 		fixHeight();
 		if (diffHeight(node) == 2) {
-			// cout << "\ndiffHeight(node) == -2\n";
 			if (node->left->right == NullNode || node->left->right == NULL) {
-				// cout << "rotate right\n";
 				node = rotateRight(node);
 			} else {
-				// cout << "rotate left + right\n";
 				node = rotateLeftRight(node);
 			}
 		}

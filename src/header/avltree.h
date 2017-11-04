@@ -11,7 +11,6 @@ struct avltree : public node<string, string, avltree>
 
 class AVLTree : public BTree
 {
-public:
 	avltree EmptyNode;
 	avltree *NullNode = &EmptyNode;
 	avltree *root = NULL;
@@ -33,7 +32,7 @@ public:
 	avltree *TransplantNods(avltree *, avltree *);
 	avltree *AddNode(avltree *, string, string);
 
-// public:
+public:
 	AVLTree() {
 		NullNode->parent = NULL;
 		NullNode->left = NULL;
@@ -52,7 +51,6 @@ public:
 
 	avltree *Delete(avltree *, string);
 	void Delete(string);
-	avltree *DeleteMin(avltree *);
 
 	~AVLTree()
 	{
