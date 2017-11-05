@@ -9,4 +9,4 @@ class Dictionary
 public:
 	void readFile(string);
 	void translate(string);
-}
+};

@@ -2,6 +2,8 @@
 #define AVLTREE_H
 
 #include "btree.h"
+#include <iostream>
+using namespace std;
 
 struct avltree : public node<string, string, avltree>
 {

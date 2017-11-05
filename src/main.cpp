@@ -1,38 +1,50 @@
 #include <iostream>
 #include <string>
-#include <cstdlib>
-#include "avltree.h"
+#include "dictionary.h"
 using namespace std;
+
+void help() {
+	cout << "\tCommand Set:\n";
+	cout << "\tload file : load\n";
+	cout << "\ttranslate : translate or tr\n";
+	cout << "\texit : exit\n";
+}
 
 int main(void)
 {
-	cout << "AVLTREE\n";
-	AVLTree obj;
-	obj.AddNode("0", "null");
-	obj.AddNode("1", "one");
-	obj.AddNode("2", "two");
-	obj.AddNode("3", "three");
-	obj.AddNode("4", "four");
-	obj.AddNode("5", "five");
-	obj.AddNode("6", "six");
-	obj.AddNode("7", "seven");
-	obj.AddNode("8", "eight");
-	obj.AddNode("9", "nine");
-	cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
-	obj.PrintTree();
+	Dictionary dict;
+	string answer;
+	bool first = true;
 
-	cout << "delete 0\n";
-	obj.Delete("0");
-	cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
-	obj.PrintTree();
-
-	cout << "delete 2\n";
-	obj.Delete("2");
-	cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
-	obj.PrintTree();
-
-	cout << "delete 5\n";
-	obj.Delete("5");
-	cout << "\nkey\tvalue\t&node\t\tparent\t\tleft\t\tright\n";
-	obj.PrintTree();
+	while (answer != "exit") {
+		if (first) {
+			help();
+			first = false;
+		}
+		cout << "cmd: ";
+		getline(cin, answer);
+		if (answer == "help") {
+			help();
+			continue;
+		}
+		if (answer == "load") {
+			cout << "Name file: ";
+			getline(cin, answer);
+			dict.readFile(answer);
+			continue;
+		}
+		if (answer == "translate" || answer == "tr") {
+			while (1) {
+				cout << "Word: ";
+				getline(cin, answer);
+				if (answer == "exit") {
+					break;
+				}
+				//system("clear");
+				dict.translate(answer);
+			}
+			answer.clear();
+			continue;
+		}
+	}
 }
