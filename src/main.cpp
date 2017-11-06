@@ -18,6 +18,7 @@ int main(void)
 
 	while (answer != "exit") {
 		if (first) {
+			system("clear");
 			help();
 			first = false;
 		}
@@ -34,13 +35,14 @@ int main(void)
 			continue;
 		}
 		if (answer == "translate" || answer == "tr") {
+			system("clear");
 			while (1) {
-				cout << "Word: ";
+				cout << "\nWord: ";
 				getline(cin, answer);
 				if (answer == "exit") {
 					break;
 				}
-				//system("clear");
+				system("clear");
 				dict.translate(answer);
 			}
 			answer.clear();

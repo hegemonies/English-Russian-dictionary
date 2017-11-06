@@ -30,7 +30,6 @@ void Dictionary::readFile(string name_file)
 		getline(in, value);
 		data.AddNode(key, value);
 		i++;
-		// cout << "Прочитано " << i << " слов\n";
 		procent = (100 * i) / num_words;
 		cout << procent << "%";
 		
@@ -44,19 +43,21 @@ void Dictionary::readFile(string name_file)
 		for (; count > 0; count--) {
 			cout << "\b";
 		}
-
-		// cout.seekg(0);
 	}
 
-	cout << "Read file is complete. " << i << " words.";
+	cout << "Read file is complete. " << i << " words.\n";
 
 	in.close();
 	cout << "Complete read file\n";
-	data.PrintTree();
 }
 
 void Dictionary::translate(string str)
 {
 	cout << "Translate: " << str << endl;
-	cout << data.SearchNode(str)->value << endl;
+	avltree *tmp = data.SearchNode(str);
+	if (tmp == data.getNullNode() || tmp == NULL) {
+		cout << "\tThere is no such word\n";
+		return;
+	}
+	cout << "\t" << tmp->value << endl;
 }

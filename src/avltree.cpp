@@ -146,7 +146,7 @@ avltree *AVLTree::SearchNode(string key)
 {
 	avltree *node = root;
 
-	while (node != NULL) {
+	while (node != NULL && node != NullNode) {
 		if (key == node->key) {
 			return node;
 		} else if (key < node->key) {
@@ -388,4 +388,9 @@ void AVLTree::Display(avltree *node, int level)
         cout << node->key;
         Display(node->left, level + 1);
     }
+}
+
+avltree *AVLTree::getNullNode()
+{
+	return NullNode;
 }

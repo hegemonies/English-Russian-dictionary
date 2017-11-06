@@ -14,8 +14,8 @@ struct avltree : public node<string, string, avltree>
 class AVLTree : public BTree
 {
 	avltree EmptyNode;
-	avltree *NullNode = &EmptyNode;
 	avltree *root = NULL;
+	avltree *NullNode = &EmptyNode;
 
 	int getHeight(avltree *);
 	int diffHeight(avltree *);
@@ -34,6 +34,7 @@ class AVLTree : public BTree
 	avltree *TransplantNods(avltree *, avltree *);
 	avltree *AddNode(avltree *, string, string);
 
+	avltree *Delete(avltree *, string);
 public:
 	AVLTree() {
 		NullNode->parent = NULL;
@@ -51,8 +52,9 @@ public:
 	void PrintTree();
 	void Display();
 
-	avltree *Delete(avltree *, string);
 	void Delete(string);
+
+	avltree *getNullNode();
 
 	~AVLTree()
 	{
