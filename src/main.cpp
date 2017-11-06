@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <locale>
 #include "dictionary.h"
 using namespace std;
 
@@ -12,13 +13,14 @@ void help() {
 
 int main(void)
 {
+	setlocale(0, "");
 	Dictionary dict;
 	string answer;
 	bool first = true;
 
 	while (answer != "exit") {
 		if (first) {
-			system("clear");
+			system("cls");
 			help();
 			first = false;
 		}
@@ -35,14 +37,14 @@ int main(void)
 			continue;
 		}
 		if (answer == "translate" || answer == "tr") {
-			system("clear");
+			system("cls");
 			while (1) {
 				cout << "\nWord: ";
 				getline(cin, answer);
 				if (answer == "exit") {
 					break;
 				}
-				system("clear");
+				system("cls");
 				dict.translate(answer);
 			}
 			answer.clear();

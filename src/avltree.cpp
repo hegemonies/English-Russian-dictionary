@@ -188,13 +188,7 @@ void AVLTree::DeleteNode(string key)
 		node->left = save->left;
 		node->left->parent = node;
 	}
-	// delete node;
 }
-
-// void AVLTree::DeleteNode(string key)
-// {
-
-// }
 
 avltree *AVLTree::TransplantNods(avltree *node, avltree *new_node)
 {
