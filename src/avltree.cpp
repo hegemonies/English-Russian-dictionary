@@ -48,13 +48,6 @@ avltree *AVLTree::AddNode(avltree *node, string key, string value)
 			}
 		}
 	}
-	// if (key < root->key) {
-	// 	fixHeight(root->left);
-	// } else if (key > root->key) {
-	// 	fixHeight(root->right);
-	// }
-	// root->height = getHeight(root);
-	//fixHeight();
 
 	return node;
 }
@@ -151,7 +144,6 @@ void AVLTree::AddNode(string key, string value)
 		fixHeight(root->right);
 	}
 	root->height = getHeight(root);
-	//fixHeight();
 }
 
 avltree *AVLTree::SearchNode(string key)
