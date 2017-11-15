@@ -7,6 +7,6 @@ class Dictionary
 {
 	AVLTree data;
 public:
-	void readFile(string);
-	void translate(string);
+	void readFile(string /*name file*/);
+	void translate(string /*word*/);
 };

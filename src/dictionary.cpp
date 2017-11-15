@@ -54,7 +54,7 @@ void Dictionary::readFile(string name_file)
 void Dictionary::translate(string str)
 {
 	cout << "Translate: " << str << endl;
-	avltree *tmp = data.SearchNode(str);
+	AVLTree::avltree *tmp = data.SearchNode(str);
 	if (tmp == data.getNullNode() || tmp == NULL) {
 		cout << "\tThere is no such word\n";
 		return;

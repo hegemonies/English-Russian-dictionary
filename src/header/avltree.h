@@ -5,61 +5,63 @@
 #include <iostream>
 using namespace std;
 
-struct avltree : public node<string, string, avltree>
-{
-	avltree *parent;
-	int height;
-};
+
 
 class AVLTree : public BTree
 {
-	avltree EmptyNode;
-	avltree *root = NULL;
-	avltree *NullNode = &EmptyNode;
-
-	int getHeight(avltree *);
-	int diffHeight(avltree *);
-	void fixHeight(avltree *);
-	void fixHeight();
-
-	avltree *rotateLeft(avltree *);
-	avltree *rotateRight(avltree *);
-	avltree *rotateLeftRight(avltree *);
-	avltree *rotateRightLeft(avltree *);
-	void Display(avltree *, int);
-	void FreeTree(avltree *);
-	void PrintTree(avltree *);
-	avltree *MinNode(avltree *);
-	avltree *MaxNode(avltree *);
-	avltree *TransplantNods(avltree *, avltree *);
-	avltree *AddNode(avltree *, string, string);
-
-	avltree *Delete(avltree *, string);
 public:
-	AVLTree() {
+	struct avltree : public node<string, string, avltree>
+	{
+		avltree *parent;
+		int height;
+	};
+	AVLTree(void) {
 		NullNode->parent = NULL;
 		NullNode->left = NULL;
 		NullNode->right = NULL;
 		NullNode->height = -1;
 	}
-	avltree *CreateNode(string, string, avltree *);
-	void AddNode(string, string);
+	avltree *CreateNode(string /*key*/, string /*value*/, avltree */*parent*/);
+	void AddNode(string /*key*/, string /*value*/);
 
-	avltree *SearchNode(string);
-	void DeleteNode(string);
-	avltree *MinNode();
-	avltree *MaxNode();
-	void PrintTree();
-	void Display();
+	avltree *SearchNode(string /*key*/);
+	void DeleteNode(string /*key*/);
+	avltree *MinNode(void);
+	avltree *MaxNode(void);
+	void PrintTree(void);
+	void Display(void);
 
 	void Delete(string);
 
-	avltree *getNullNode();
+	avltree *getNullNode(void);
 
-	~AVLTree()
+	~AVLTree(void)
 	{
 		FreeTree(root);
 	}
+private:
+	avltree EmptyNode;
+	avltree *root = NULL;
+	avltree *NullNode = &EmptyNode;
+
+	int getHeight(avltree */*node*/);
+	int diffHeight(avltree */*node*/);
+	void fixHeight(avltree */*node*/);
+	void fixHeight(void);
+
+	avltree *rotateLeft(avltree */*node*/);
+	avltree *rotateRight(avltree */*node*/);
+	avltree *rotateLeftRight(avltree */*node*/);
+	avltree *rotateRightLeft(avltree */*node*/);
+	void Display(avltree */*node*/, int /*level*/);
+	void FreeTree(avltree */*node*/);
+	void PrintTree(avltree */*node*/);
+	avltree *MinNode(avltree */*node*/);
+	avltree *MaxNode(avltree */*node*/);
+	avltree *TransplantNods(avltree */*node1*/, avltree */*node2*/);
+	avltree *AddNode(avltree */*node*/, string /*key*/, string/*value*/);
+
+	avltree *Delete(avltree */*node*/, string /*key*/);
 };
 
 #endif

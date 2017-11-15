@@ -16,14 +16,14 @@ template<class DataTypeKey, class DataTypeValue, class StructType>
 class Tree
 {
 protected:
-	virtual StructType *CreateNode(DataTypeKey, DataTypeValue, StructType *) = 0;
+	virtual StructType *CreateNode(DataTypeKey /*key*/, DataTypeValue /*value*/, StructType */*node*/) = 0;
 	//virtual void AddNode(DataTypeKey, DataTypeValue) = 0;
 	//virtual StructType *SearchNode(DataTypeKey) = 0;
-	virtual void DeleteNode(DataTypeKey) = 0;
-	virtual StructType *MinNode(StructType *) = 0;
-	virtual StructType *MaxNode(StructType *) = 0;
-	virtual void FreeTree(StructType *) = 0;
-	virtual void PrintTree() = 0;
+	virtual void DeleteNode(DataTypeKey /*key*/) = 0;
+	virtual StructType *MinNode(StructType */*node*/) = 0;
+	virtual StructType *MaxNode(StructType */*node*/) = 0;
+	virtual void FreeTree(StructType */*node*/) = 0;
+	virtual void PrintTree(void) = 0;
 };
 
 #endif

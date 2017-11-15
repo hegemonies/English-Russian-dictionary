@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-avltree *AVLTree::CreateNode(string key, string value, avltree *parent)
+AVLTree::avltree *AVLTree::CreateNode(string key, string value, avltree *parent)
 {
 	avltree *node;
 	try {
@@ -21,7 +21,7 @@ avltree *AVLTree::CreateNode(string key, string value, avltree *parent)
 	return node;
 }
 
-avltree *AVLTree::AddNode(avltree *node, string key, string value)
+AVLTree::avltree *AVLTree::AddNode(avltree *node, string key, string value)
 {
 	if (node == NULL || node == NullNode) {
 		return CreateNode(key, value, NULL);
@@ -77,7 +77,7 @@ void AVLTree::Delete(string key)
 	fixHeight();
 }
 
-avltree *AVLTree::Delete(avltree *node, string key)
+AVLTree::avltree *AVLTree::Delete(avltree *node, string key)
 {
 	if (node == NULL || node == NullNode) {
 		return NullNode;
@@ -146,7 +146,7 @@ void AVLTree::AddNode(string key, string value)
 	root->height = getHeight(root);
 }
 
-avltree *AVLTree::SearchNode(string key)
+AVLTree::avltree *AVLTree::SearchNode(string key)
 {
 	avltree *node = root;
 
@@ -200,7 +200,7 @@ void AVLTree::DeleteNode(string key)
 
 // }
 
-avltree *AVLTree::TransplantNods(avltree *node, avltree *new_node)
+AVLTree::avltree *AVLTree::TransplantNods(avltree *node, avltree *new_node)
 {
 	if (node->parent == NULL) {
 		root = new_node;
@@ -216,7 +216,7 @@ avltree *AVLTree::TransplantNods(avltree *node, avltree *new_node)
 	return root;
 }
 
-avltree *AVLTree::MinNode(avltree *node)
+AVLTree::avltree *AVLTree::MinNode(avltree *node)
 {
 	while (node->left != NullNode) {
 		node = node->left;
@@ -225,12 +225,12 @@ avltree *AVLTree::MinNode(avltree *node)
 	return node;
 }
 
-avltree *AVLTree::MinNode()
+AVLTree::avltree *AVLTree::MinNode()
 {
 	return MinNode(root);
 }
 
-avltree *AVLTree::MaxNode(avltree *node)
+AVLTree::avltree *AVLTree::MaxNode(avltree *node)
 {
 	while (node->right != NullNode) {
 		node = node->right;
@@ -239,7 +239,7 @@ avltree *AVLTree::MaxNode(avltree *node)
 	return node;
 }
 
-avltree *AVLTree::MaxNode()
+AVLTree::avltree *AVLTree::MaxNode()
 {
 	return MaxNode(root);
 }
@@ -309,7 +309,7 @@ void AVLTree::fixHeight(avltree *node)
 	node->height = (hl > hr ? hl : hr);
 }
 
-avltree *AVLTree::rotateLeft(avltree *node)
+AVLTree::avltree *AVLTree::rotateLeft(avltree *node)
 {
 	if (node == NullNode) {
 		return NullNode;
@@ -336,7 +336,7 @@ avltree *AVLTree::rotateLeft(avltree *node)
 	return des;
 }
 
-avltree *AVLTree::rotateRight(avltree *node)
+AVLTree::avltree *AVLTree::rotateRight(avltree *node)
 {
 	if (node == NullNode) {
 		return NullNode;
@@ -362,13 +362,13 @@ avltree *AVLTree::rotateRight(avltree *node)
 	return des;
 }
 
-avltree *AVLTree::rotateLeftRight(avltree *node)
+AVLTree::avltree *AVLTree::rotateLeftRight(avltree *node)
 {
 	node->left = rotateLeft(node->left);
 	return rotateRight(node);
 }
 
-avltree *AVLTree::rotateRightLeft(avltree *node)
+AVLTree::avltree *AVLTree::rotateRightLeft(avltree *node)
 {
 	node->right = rotateRight(node->right);
 	return rotateLeft(node);
@@ -394,7 +394,7 @@ void AVLTree::Display(avltree *node, int level)
     }
 }
 
-avltree *AVLTree::getNullNode()
+AVLTree::avltree *AVLTree::getNullNode()
 {
 	return NullNode;
 }
