@@ -5,8 +5,6 @@
 #include <iostream>
 using namespace std;
 
-
-
 class AVLTree : public BTree
 {
 public:
@@ -14,6 +12,12 @@ public:
 	{
 		avltree *parent;
 		int height;
+		avltree(string k = "", string v = "") {
+			key = k;
+			value = v;
+			height = 0;
+			parent = NULL;
+		}
 	};
 	AVLTree(void) {
 		NullNode->parent = NULL;
@@ -21,7 +25,7 @@ public:
 		NullNode->right = NULL;
 		NullNode->height = -1;
 	}
-	avltree *CreateNode(string /*key*/, string /*value*/, avltree */*parent*/);
+	avltree *CreateNode(string /*key*/, string /*value*/);
 	void AddNode(string /*key*/, string /*value*/);
 
 	avltree *SearchNode(string /*key*/);

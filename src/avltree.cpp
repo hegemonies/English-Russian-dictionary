@@ -2,21 +2,19 @@
 #include <iostream>
 #include <string>
 
-AVLTree::avltree *AVLTree::CreateNode(string key, string value, avltree *parent)
+AVLTree::avltree *AVLTree::CreateNode(string key, string value)
 {
 	avltree *node;
+
 	try {
-		node = new avltree;
+		node = new avltree(key, value);
 	} catch (bad_alloc xa) {
 		cout << "\n\tBad allocation for avltree node.\n";
 		exit(1);
 	}
-	node->key = key;
-	node->value = value;
+	
 	node->left = NullNode;
 	node->right = NullNode;
-	node->parent = parent;
-	node->height = 0;
 
 	return node;
 }
@@ -24,7 +22,7 @@ AVLTree::avltree *AVLTree::CreateNode(string key, string value, avltree *parent)
 AVLTree::avltree *AVLTree::AddNode(avltree *node, string key, string value)
 {
 	if (node == NULL || node == NullNode) {
-		return CreateNode(key, value, NULL);
+		return CreateNode(key, value);
 	}
 
 	if (key < node->key) {
