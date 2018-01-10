@@ -5,8 +5,11 @@ using namespace std;
 
 class Dictionary
 {
-	AVLTree data;
 public:
+	static AVLTree data;
 	void readFile(string /*name file*/);
-	void translate(string /*word*/);
+	static void translate(string /*word*/);
+	static void process(string name_file, int start, int finish);
 };
+
+AVLTree Dictionary::data;
