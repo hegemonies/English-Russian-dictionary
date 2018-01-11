@@ -4,6 +4,8 @@
 #include <thread>
 #include <mutex>
 #include <functional>
+#include <chrono>
+#include <unistd.h>
 #include "dictionary.h"
 using namespace std;
 
@@ -11,6 +13,7 @@ int count1 = 0;
 int count2 = 0;
 int count3 = 0;
 int count4 = 0;
+int sum = 0;
 
 std::thread::id th1;
 std::thread::id th2;
@@ -36,28 +39,23 @@ void compute_count(std::thread::id number_thread)
 	}
 }
 
+void add_count_words()
+{
+	sum++;
+}
+
 int count_theard = 1;
 
-void Dictionary::process(string name_file, int start, int finish)
+void Dictionary::process(string name_file, int start, int finish, mutex *mtx)
 {
+	mtx->lock();
+	cout << "---------------------" << endl;
+	cout << "count_theard = " << count_theard << endl;
+	count_theard++;
 	cout << this_thread::get_id() << endl;
-	if (count_theard == 1) {
-		count_theard++;
-		th1 = std::this_thread::get_id();
-	}
-	if (count_theard == 2) {
-		count_theard++;
-		th2 = std::this_thread::get_id();
-	}
-	if (count_theard == 3) {
-		count_theard++;
-		th3 = std::this_thread::get_id();
-	}
-	if (count_theard == 4) {
-		th4 = std::this_thread::get_id();
-	}
-
-	// cout << "OK\n";
+	cout << start << ' ' << finish << endl;
+	cout << "---------------------" << endl;
+	mtx->unlock();
 
 	ifstream in(name_file.c_str());
 	if (!in.is_open()) {
@@ -75,24 +73,36 @@ void Dictionary::process(string name_file, int start, int finish)
 		getline(in, key);
 	}
 
+	mtx->lock();
 	cout << "ok passed by the word thread: " << this_thread::get_id() << endl;
+	mtx->unlock();
+
+	// mutex mtx;
+	this_thread::sleep_for(chrono::milliseconds(500));
 
 	while (start != finish) {
 		getline(in, key, ' ');
 		getline(in, value);
+
+		mtx->lock();
 		data.AddNode(key, value);
-		compute_count(this_thread::get_id());
+		// compute_count(this_thread::get_id());
+		add_count_words();
 		start++;
-		int procent = (start * 100) / finish;
-		cout << "procent = ";
-		if (procent / 10 == 0) {
-			cout << "0";
-		}
-		cout << procent << "%";
-		cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+		mtx->unlock();
+		// int procent = (start * 100) / finish;
+		// mtx->lock();
+		// cout << "procent = ";
+		// if (procent / 10 == 0) {
+		// 	cout << "0";
+		// }
+		// cout << procent << "%";
+		// cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b";	
+		// mtx->unlock();
 	}
 
 	in.close();
+	this_thread::sleep_for(chrono::milliseconds(500));
 }
 
 void Dictionary::readFile(string name_file)
@@ -121,12 +131,6 @@ void Dictionary::readFile(string name_file)
 
 	int diff = num_words / 4;
 
-	float check = num_words % 4 != 0;
-	int remainder = 0;
-	if (check != 0) {
-		remainder = check * 4;
-	}
-
 	// int count1 = 0;
 	// int count2 = 0;
 	// int count3 = 0;
@@ -139,25 +143,42 @@ void Dictionary::readFile(string name_file)
 
 	// auto f = bind(Dictionary::process, placeholders::_1, placeholders::_2, placeholders::_3);
 
-	auto f1 = [&]{process(name_file, 0, diff);};
-	auto f2 = [&]{process(name_file, diff + 1, diff * 2);};
-	auto f3 = [&]{process(name_file, (diff * 2) + 1, diff * 3);};
-	auto f4 = [&]{process(name_file, (diff * 3) + 1, (diff * 4) + remainder);};
+	mutex mtx;
+
+	auto f1 = [&]{process(name_file, 0, diff, &mtx);};
+	auto f2 = [&]{process(name_file, diff + 1, diff * 2, &mtx);};
+	auto f3 = [&]{process(name_file, (diff * 2) + 1, diff * 3, &mtx);};
+	auto f4 = [&]{process(name_file, (diff * 3) + 1, num_words, &mtx);};
 
 	thread t1(f1);
+	th1 = t1.get_id();
+	usleep(500);
 	thread t2(f2);
+	th2 = t2.get_id();
+	usleep(500);
 	thread t3(f3);
+	th3 = t3.get_id();
+	usleep(500);
 	thread t4(f4);
+	th4 = t4.get_id();
 
 	// thread t1(process, name_file, 0, diff);
 	// thread t2(process, name_file, diff, diff * 2);
 	// thread t3(process, name_file, diff * 2, diff * 3);
 	// thread t4(process, name_file, diff * 3, diff * 4);
 
+	// int sum = count1 + count2 + count3 + count4;
+	// while (sum < num_words) {
+	// 	cout << sum << endl;
+	// 	sum = count1 + count2 + count3 + count4;
+	// }
+
 	t1.join();
 	t2.join();
 	t3.join();
 	t4.join();
+
+	count_theard = 1;
 
 	// while (t1.join() && t2.join() && t3.join() && t4.join()) {
 	// 	cout << count1 << ' ' << count2  << ' ' << count3 << ' ' << count4;
@@ -196,6 +217,20 @@ void Dictionary::readFile(string name_file)
 	cout << "count2 = " << count2 << endl;
 	cout << "count3 = " << count3 << endl;
 	cout << "count4 = " << count4 << endl;
+
+	// while (sum != num_words) {
+	// 	int procent = (sum * 100) / num_words;
+	// 	cout << procent << "%";
+	// 	if (procent / 10 != 0) {
+	// 		cout << "\b";
+	// 	}
+	// 	cout << "\b\b";
+	// }
+
+	// cout << "\b" << endl;
+
+	cout << "sum = " << sum << endl;
+	cout << "num_words = " << num_words << endl;
 
 	cout << "Read file is complete. " << count1 + count2 + count3 + count4 << " words.\n";
 	cout << "Complete read file\n";
