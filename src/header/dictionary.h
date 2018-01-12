@@ -13,18 +13,19 @@ public:
 
 	Dictionary()
 	{
-		count_theard = 2;
-		data_thread = new AVLTree[count_theard];
+		count_theard = 0;
+		data_thread = new AVLTree[4];
 	}
 
-	Dictionary(int amount_threads)
-	{
-		data_thread = new AVLTree[amount_threads];
-		count_theard = amount_threads;
-	}
+	// Dictionary(int amount_threads)
+	// {
+	// 	data_thread = new AVLTree[amount_threads];
+	// 	count_theard = amount_threads;
+	// }
 
 	void readFile(string /*name file*/);
 	void translate(string /*word*/);
 	void process(int /*number_of_thread*/, string /*name_file*/, int /*start*/, int /*finish*/, mutex */*mtx*/);
 	void merge();
+	string get_key();
 };

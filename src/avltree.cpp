@@ -279,8 +279,10 @@ void AVLTree::FreeTree(avltree *node)
 	if (node == NULL || node == NullNode) {
 		return;
 	}
+
 	FreeTree(node->left);
 	FreeTree(node->right);
+	
 	delete node;
 }
 

@@ -73,6 +73,7 @@ void Dictionary::process(int number_of_thread, string name_file, int start, int 
 
 	in.close();
 	// this_thread::sleep_for(chrono::milliseconds(500));
+	cout << "ok\n";
 }
 
 void Dictionary::readFile(string name_file)
@@ -135,8 +136,9 @@ void Dictionary::readFile(string name_file)
 	// cout << "count3 = " << count3 << endl;
 	// cout << "count4 = " << count4 << endl;
 
-	//merge();
-	count_theard = 1;
+	cout << "merge\n";
+	merge();
+	count_theard = 0;
 
 	// cout << "sum = " << sum << endl;
 	cout << "num_words = " << num_words << endl;
@@ -158,33 +160,60 @@ void Dictionary::translate(string str)
 
 void Dictionary::merge()
 {
-	cout << "check:\n";
-	cout << (data_thread[0].root->key < data_thread[1].root->key) << endl;
-	cout << (data_thread[1].root->key < data_thread[2].root->key) << endl;
-	cout << (data_thread[2].root->key < data_thread[3].root->key) << endl;
-	//cout << (data_thread[3].root->key < data_thread[4].root->key) << endl;
+	// cout << "count_theard = " << count_theard << endl;
+	// cout << "check:\n";
+	// cout << (data_thread[0].root->key < data_thread[1].root->key) << endl;
+	// cout << (data_thread[1].root->key < data_thread[2].root->key) << endl;
+	// cout << (data_thread[2].root->key < data_thread[3].root->key) << endl;
 
 	if (data.root == NULL) {
 		data.root = data_thread[0].root;
 		data_thread[0].root = NULL;
 	}
 
-	for (int i = 0; i < count_theard - 1; i++) {
-		string new_key = data_thread[i].root->key;
-		string left = new_key;
-		string right = data_thread[i].root->key;
+	// cout << "data.root->key = " << data.root->key << endl;
 
-		while (!(new_key > left) && !(new_key < right)) {
-			cout << "+q\n";
-			new_key += "q";
-		}
+	for (int i = 0; i < count_theard - 1; i++) {
+		// string new_key = data.root->key + 'q';
+		string new_key = get_key();
+		string left = data.root->key;
+		string right = data_thread[i + 1].root->key;
+
+		cout << "new_key = " << new_key << endl;
+		cout << "left = " << left << endl;
+		cout << "right = " << right << endl;
+
+		cout << "((new_key > left) && (new_key < right)) = " << ((new_key > left) && (new_key < right)) << endl;
+
+		// while (!(new_key > left) && !(new_key < right)) {
+		// 	cout << "+q\n";
+		// 	new_key += "q";
+		// }
 
 		AVLTree::avltree *new_root = data.CreateNode(new_key, "");
+
+		// cout << "new_root->key = " << new_root->key << endl;
 
 		new_root->left = data.root;
 		new_root->right = data_thread[i + 1].root;
 
 		data.root = new_root;
 		data_thread[i + 1].root = NULL;
+
+		cout << "data.root->key = " << data.root->key << endl;
+		cout << "data.root->left->key = " << data.root->left->key << endl;
+		cout << "data.root->right->key = " << data.root->right->key << endl;
+		cout << endl;
 	}
+}
+
+string Dictionary::get_key()
+{
+	AVLTree::avltree *tmp = data.root;
+
+	while (tmp->right != NULL) {
+		tmp = tmp->right;
+	}
+
+	return tmp->parent->key;
 }

@@ -2,7 +2,7 @@ all: bin/main
 
 bin/main: ifndir build/btree.o build/avltree.o build/dictionary.o build/main.o
 	g++ -std=c++11 -pthread -Wl,--no-as-needed -Wall -I src/header build/btree.o build/avltree.o build/dictionary.o build/main.o -o bin/main -time -O0 -g
-	
+	bin/main
 
 build/btree.o: ifndir src/btree.cpp
 	g++ -std=c++11 -Wall -I src/header -c src/btree.cpp -o build/btree.o -time -O0 -g

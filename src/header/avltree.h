@@ -41,7 +41,7 @@ public:
 
 	~AVLTree(void)
 	{
-		FreeTree(root);
+		//FreeTree(root);
 	}
 	avltree *root = NULL;
 private:
