@@ -43,9 +43,9 @@ public:
 	{
 		FreeTree(root);
 	}
+	avltree *root = NULL;
 private:
 	avltree EmptyNode;
-	avltree *root = NULL;
 	avltree *NullNode = &EmptyNode;
 
 	int getHeight(avltree */*node*/);

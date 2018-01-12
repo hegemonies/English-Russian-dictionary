@@ -20,7 +20,7 @@ void help() {
 
 int main(void)
 {
-	Dictionary dict;
+	Dictionary dict(4);
 	double t = 0;
 	t = wtime();
 	dict.readFile("dic/rus-eng");
