@@ -21,44 +21,49 @@ void help() {
 int main(void)
 {
 	Dictionary dict;
-	string answer;
-	bool first = true;
 	double t = 0;
+	t = wtime();
+	dict.readFile("dic/rus-eng");
+	t = wtime() - t;
+	cout << "Time is " << t << endl;
+	// string answer;
+	// bool first = true;
+	// double t = 0;
 
-	while (answer != "exit") {
-		if (first) {
-			// system("clear");
-			help();
-			first = false;
-		}
-		cout << "cmd: ";
-		getline(cin, answer);
-		if (answer == "help") {
-			help();
-			continue;
-		}
-		if (answer == "load") {
-			cout << "Name file: ";
-			getline(cin, answer);
-			t = wtime();
-			dict.readFile(answer);
-			t = wtime() - t;
-			cout << "Time is " << t << endl;
-			continue;
-		}
-		if (answer == "translate" || answer == "tr") {
-			// system("clear");
-			while (1) {
-				cout << "\nWord: ";
-				getline(cin, answer);
-				if (answer == "exit") {
-					break;
-				}
-				// system("clear");
-				dict.translate(answer);
-			}
-			answer.clear();
-			continue;
-		}
-	}
+	// while (answer != "exit") {
+	// 	if (first) {
+	// 		// system("clear");
+	// 		help();
+	// 		first = false;
+	// 	}
+	// 	cout << "cmd: ";
+	// 	getline(cin, answer);
+	// 	if (answer == "help") {
+	// 		help();
+	// 		continue;
+	// 	}
+	// 	if (answer == "load") {
+	// 		cout << "Name file: ";
+	// 		getline(cin, answer);
+	// 		t = wtime();
+	// 		dict.readFile(answer);
+	// 		t = wtime() - t;
+	// 		cout << "Time is " << t << endl;
+	// 		continue;
+	// 	}
+	// 	if (answer == "translate" || answer == "tr") {
+	// 		// system("clear");
+	// 		while (1) {
+	// 			cout << "\nWord: ";
+	// 			getline(cin, answer);
+	// 			if (answer == "exit") {
+	// 				break;
+	// 			}
+	// 			// system("clear");
+	// 			dict.translate(answer);
+	// 		}
+	// 		answer.clear();
+	// 		continue;
+	// 	}
+	// }
 }
