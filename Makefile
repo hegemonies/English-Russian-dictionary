@@ -11,7 +11,7 @@ build/main.o: ifndir src/main.cpp
 	g++ -std=c++11 -Wall -I src/header -c src/main.cpp -o build/main.o -time -O0 -g
 
 build/avltree.o: ifndir src/avltree.cpp
-	g++ -std=c++11 -Wall -I src/header -c src/avltree.cpp -o build/avltree.o -time -O0 -g
+	g++ -std=c++11 -pthread -Wl,--no-as-needed -Wall -I src/header -c src/avltree.cpp -o build/avltree.o -time -O0 -g
 
 build/dictionary.o: ifndir src/dictionary.cpp
 	g++ -std=c++11 -pthread -Wl,--no-as-needed -Wall -I src/header -c src/dictionary.cpp -o build/dictionary.o -time -O0 -g

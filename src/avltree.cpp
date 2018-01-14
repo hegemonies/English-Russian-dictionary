@@ -148,7 +148,7 @@ AVLTree::avltree *AVLTree::SearchNode(string key)
 {
 	avltree *node = root;
 
-	while (node != NULL && node != NullNode) {
+	while (node != NULL || node != NullNode) {
 		if (key == node->key) {
 			return node;
 		} else if (key < node->key) {

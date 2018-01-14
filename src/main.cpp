@@ -45,7 +45,7 @@ int main(void)
 			continue;
 		}
 		if (answer == "load") {
-			cout << "Name file: ";
+			cout << "Name of file: ";
 			getline(cin, answer);
 			t = wtime();
 			dict.readFile(answer);

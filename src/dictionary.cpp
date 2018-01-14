@@ -37,9 +37,11 @@ void Dictionary::process(int number_of_thread, string name_file, int start, int 
 {
 	mtx->lock();
 	// cout << "count_theard = " << count_theard << endl;
+	cout << "\n--------------------\n";
 	count_theard++;
 	cout << this_thread::get_id() << endl;
 	cout << start << ' ' << finish << endl;
+	cout << "--------------------\n";
 
 	ifstream in(name_file.c_str());
 	if (!in.is_open()) {
@@ -137,6 +139,12 @@ void Dictionary::readFile(string name_file)
 	// cout << "count4 = " << count4 << endl;
 
 	cout << "merge\n";
+
+    cout << "data_thread[0].MaxNode()->key = " << data_thread[0].MaxNode()->key << endl;
+    cout << "data_thread[1].MaxNode()->key = " << data_thread[1].MaxNode()->key << endl;
+    cout << "data_thread[2].MaxNode()->key = " << data_thread[2].MaxNode()->key << endl;
+    cout << "data_thread[3].MaxNode()->key = " << data_thread[3].MaxNode()->key << endl;
+
 	merge();
 	count_theard = 0;
 
@@ -160,60 +168,55 @@ void Dictionary::translate(string str)
 
 void Dictionary::merge()
 {
-	// cout << "count_theard = " << count_theard << endl;
-	// cout << "check:\n";
-	// cout << (data_thread[0].root->key < data_thread[1].root->key) << endl;
-	// cout << (data_thread[1].root->key < data_thread[2].root->key) << endl;
-	// cout << (data_thread[2].root->key < data_thread[3].root->key) << endl;
+	cout << "count_theard = " << count_theard << endl;
 
-	if (data.root == NULL) {
-		data.root = data_thread[0].root;
-		data_thread[0].root = NULL;
-	}
+	AVLTree::avltree *maxnode_tree[3];
+	maxnode_tree[0] = data_thread[0].MaxNode();
+	maxnode_tree[1] = data_thread[1].MaxNode();
+	maxnode_tree[2] = data_thread[2].MaxNode();
 
-	// cout << "data.root->key = " << data.root->key << endl;
+	for (int i = 0; i < count_theard; i++) {
 
-	for (int i = 0; i < count_theard - 1; i++) {
-		// string new_key = data.root->key + 'q';
-		string new_key = get_key();
-		string left = data.root->key;
-		string right = data_thread[i + 1].root->key;
+        // case 1
+        if (data.root == NULL) {
+        	// AVLTree::avltree *tmp = data_thread[i].MaxNode();
+        	data.root = data.CreateNode(maxnode_tree[0]->key, maxnode_tree[0]->value);
+        	data.root->left = data_thread[i].root;
+        	data_thread[i].root = NULL;
+        	cout << "case 1 ok\n";
+        	continue;
+        }
+        // case 2
+        if (data.root->right == data.getNullNode()) {
+        	data.root->right = data_thread[i].root;
+        	data_thread[i].root = NULL;
+        	cout << "case 2 ok\n";
+        	continue;
+        }
 
-		cout << "new_key = " << new_key << endl;
-		cout << "left = " << left << endl;
-		cout << "right = " << right << endl;
-
-		cout << "((new_key > left) && (new_key < right)) = " << ((new_key > left) && (new_key < right)) << endl;
-
-		// while (!(new_key > left) && !(new_key < right)) {
-		// 	cout << "+q\n";
-		// 	new_key += "q";
-		// }
-
-		AVLTree::avltree *new_root = data.CreateNode(new_key, "");
-
-		// cout << "new_root->key = " << new_root->key << endl;
+        // AVLTree::avltree *tmp = data_thread[i].MaxNode(data_thread[i].root->left);
+        // AVLTree::avltree *tmp = data_thread[i].MaxNode();
+		AVLTree::avltree *new_root = data.CreateNode(maxnode_tree[i - 1]->key, maxnode_tree[i - 1]->value);
 
 		new_root->left = data.root;
-		new_root->right = data_thread[i + 1].root;
+		new_root->right = data_thread[i].root;
 
 		data.root = new_root;
-		data_thread[i + 1].root = NULL;
+		data_thread[i].root = NULL;
 
-		cout << "data.root->key = " << data.root->key << endl;
-		cout << "data.root->left->key = " << data.root->left->key << endl;
-		cout << "data.root->right->key = " << data.root->right->key << endl;
-		cout << endl;
+		cout << "case 3 ok\n";
 	}
 }
 
 string Dictionary::get_key()
 {
 	AVLTree::avltree *tmp = data.root;
-
+	
 	while (tmp->right != NULL) {
 		tmp = tmp->right;
+        cout << tmp->key << " ";
 	}
-
+    cout << endl;
+	
 	return tmp->parent->key;
 }

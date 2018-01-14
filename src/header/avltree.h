@@ -32,6 +32,7 @@ public:
 	void DeleteNode(string /*key*/);
 	avltree *MinNode(void);
 	avltree *MaxNode(void);
+	avltree *MaxNode(avltree */*node*/);
 	void PrintTree(void);
 	void Display(void);
 
@@ -61,7 +62,6 @@ private:
 	void FreeTree(avltree */*node*/);
 	void PrintTree(avltree */*node*/);
 	avltree *MinNode(avltree */*node*/);
-	avltree *MaxNode(avltree */*node*/);
 	avltree *TransplantNods(avltree */*node1*/, avltree */*node2*/);
 	avltree *AddNode(avltree */*node*/, string /*key*/, string/*value*/);
 
