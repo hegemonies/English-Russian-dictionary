@@ -180,14 +180,17 @@ void Dictionary::merge()
         // case 1
         if (data.root == NULL) {
         	// AVLTree::avltree *tmp = data_thread[i].MaxNode();
-        	data.root = data.CreateNode(maxnode_tree[0]->key, maxnode_tree[0]->value);
+        	// data.root = data.CreateNode(maxnode_tree[0]->key, maxnode_tree[0]->value);
+        	data.root = new AVLTree::avltree(maxnode_tree[0]->key, maxnode_tree[0]->value);
+        	data.root->parent = NULL;
+        	data.root->right = NULL;
         	data.root->left = data_thread[i].root;
         	data_thread[i].root = NULL;
         	cout << "case 1 ok\n";
         	continue;
         }
         // case 2
-        if (data.root->right == data.getNullNode()) {
+        if (data.root->right == NULL) {
         	data.root->right = data_thread[i].root;
         	data_thread[i].root = NULL;
         	cout << "case 2 ok\n";
@@ -196,7 +199,9 @@ void Dictionary::merge()
 
         // AVLTree::avltree *tmp = data_thread[i].MaxNode(data_thread[i].root->left);
         // AVLTree::avltree *tmp = data_thread[i].MaxNode();
-		AVLTree::avltree *new_root = data.CreateNode(maxnode_tree[i - 1]->key, maxnode_tree[i - 1]->value);
+		// AVLTree::avltree *new_root = data.CreateNode(maxnode_tree[i - 1]->key, maxnode_tree[i - 1]->value);
+		AVLTree::avltree *new_root = new AVLTree::avltree(maxnode_tree[i - 1]->key, maxnode_tree[i - 1]->value);
+		new_root->parent = NULL;
 
 		new_root->left = data.root;
 		new_root->right = data_thread[i].root;

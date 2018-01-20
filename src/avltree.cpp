@@ -158,6 +158,8 @@ AVLTree::avltree *AVLTree::SearchNode(string key)
 		}
 	}
 
+	cout << "There is no such word.\n";
+
 	return node;
 }
 
